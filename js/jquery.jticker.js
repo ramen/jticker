@@ -34,6 +34,9 @@ function advanceItem(elem) {
     data.currentItem   = data.nextItem;
     data.elemIndex     = [data.currentItem];
     data.charIndex     = 0;
+    if (data.onNextItem) {
+        data.onNextItem(data.nextItem);
+    }
     data.nextItem++;
 }
 
@@ -187,6 +190,7 @@ jQuery.fn[name] = function(options) {
             cursor:         o.cursor,
             cursorList:     o.cursorList,
             cursorIndex:    (typeof(o.cursorList) == "object") ? 0 : false,
+            onNextItem:     o.onNextItem,
             nextItem:       0,
             eventIndex:     0
         })
@@ -221,7 +225,8 @@ jQuery.fn[name].defaults = {
     rate:           40,         // Speed to print message.
     delay:          2000,       // Pause to read message.
     cursorList:     "_",        // A string or an array of strings or jQuery objects. If an array, the cursor loops through the array.
-    cursor:         jQuery('<span class="cursor" />')
+    cursor:         jQuery('<span class="cursor" />'),
+    onNextItem:     null        // Callback, passed 0-based index of item being displayed
 }
 
 })(jQuery);
